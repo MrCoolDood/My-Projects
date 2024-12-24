@@ -1,4 +1,4 @@
-        import chess
+import chess
 import random
 
 # Create a dictionary to represent the board with the default color assignments and pieces
