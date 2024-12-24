@@ -21,4 +21,4 @@ jobs:
 
     - name: Run Chess Engine
       run: |
-        python Chess\ Engine/your_script.py
+        python "Chess Engine/main.py"
