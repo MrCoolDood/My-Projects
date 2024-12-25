@@ -1,3 +1,4 @@
+import os
 import chess
 import random
 
@@ -167,13 +168,16 @@ depth = 5  # Set the desired depth
 position_counts = {}  # Dictionary to count positions
 transposition_table = {}  # Transposition table
 
-# Ask the user to choose a color
-color_choice = input("Do you want to play as white or black? (w/b): ").strip().lower()
+# Use environment variables to get input values in a CI/CD environment
+color_choice = os.getenv('COLOR_CHOICE', 'w')  # Default to 'w' if not set
+
+# If running interactively, still ask for input
+if os.getenv('GITHUB_ACTIONS') is None:  # Check if running in GitHub Actions
+    color_choice = input("Do you want to play as white or black? (w/b): ").strip().lower()
 
 # Validate input
 while color_choice not in ['w', 'b']:
-    color_choice = input
-    ("Invalid choice. Please enter 'w' for white or 'b' for black: ").strip().lower()
+    color_choice = input("Invalid choice. Please enter 'w' for white or 'b' for black: ").strip().lower()
 
 # Set the orientation based on the user's choice
 orientation = 'black' if color_choice == 'b' else 'white'
@@ -213,7 +217,7 @@ while not board.is_game_over():
     # Update board pieces based on current board state
     board_pieces = update_board_pieces(board)
 
-        # Bot's move
+    # Bot's move
     best_move_found = best_move(board, depth, position_counts, transposition_table)
     if best_move_found is not None:
         print(f"Bot plays: {best_move_found}")
