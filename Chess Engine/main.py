@@ -168,7 +168,7 @@ depth = 5  # Set the desired depth
 position_counts = {}  # Dictionary to count positions
 transposition_table = {}  # Transposition table
 
-# Ask the user to choose a color
+# Use environment variables to get input values in a CI/CD environment
 color_choice = os.getenv('COLOR_CHOICE', 'w')  # Default to 'w' if not set
 
 # If running interactively, still ask for input
@@ -206,7 +206,7 @@ while not board.is_game_over():
         break
 
     # Player's move
-        player_move = os.getenv('PLAYER_MOVE', input("Enter your move in UCI format (e.g., e2e4): "))
+    player_move = os.getenv('PLAYER_MOVE', input("Enter your move in UCI format (e.g., e2e4): "))
     move = chess.Move.from_uci(player_move)
     if move in board.legal_moves:
         board.push(move)
