@@ -23,4 +23,5 @@ jobs:
     - name: Run Chess Engine
       env:
         COLOR_CHOICE: 'w'  # or 'b', depending on your preference
+        PLAYER_MOVE: 'e2e4'  # Set this to your desired move for testing
       run: python "Chess Engine/main.py"
