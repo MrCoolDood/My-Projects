@@ -151,7 +151,7 @@ def best_move(board, depth, position_counts, transposition_table):
         board.push(move)
         board_fen = board.board_fen()
         position_counts[board_fen] = position_counts.get(board_fen, 0) + 1
-        move_eval = minimax(board, depth - -float('inf'), float('inf'), 
+        move_eval = minimax(board, depth - 1, -float('inf'), float('inf'), 
                             False, position_counts, transposition_table)
         board.pop()
         position_counts[board_fen] -= 1
@@ -168,7 +168,7 @@ depth = 5  # Set the desired depth
 position_counts = {}  # Dictionary to count positions
 transposition_table = {}  # Transposition table
 
-# Use environment variables to get input values in a CI/CD environment
+# Ask the user to choose a color
 color_choice = os.getenv('COLOR_CHOICE', 'w')  # Default to 'w' if not set
 
 # If running interactively, still ask for input
@@ -202,11 +202,11 @@ while not board.is_game_over():
 
     # Check for threefold repetition
     if board.can_claim_threefold_repetition():
-                print("Draw by threefold repetition!")
+        print("Draw by threefold repetition!")
         break
 
     # Player's move
-    player_move = os.getenv('PLAYER_MOVE', input("Enter your move in UCI format (e.g., e2e4): "))
+        player_move = os.getenv('PLAYER_MOVE', input("Enter your move in UCI format (e.g., e2e4): "))
     move = chess.Move.from_uci(player_move)
     if move in board.legal_moves:
         board.push(move)
