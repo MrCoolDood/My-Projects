@@ -36,12 +36,12 @@ def print_custom_board(board_colors, board_pieces, orientation):
     if orientation == 'black':
         ranks = range(8)
         files = range(7, -1, -1)
-        file_labels = 'hg fe d c ba'
+        file_labels = 'ab cd e f gh'
         rank_labels = '12345678'
     else:
         ranks = range(7, -1, -1)
         files = range(8)
-        file_labels = 'ab c de f gh'
+        file_labels = 'hg f ed c ba'
         rank_labels = '87654321'
 
     print("     " + "    ".join(file_labels))
