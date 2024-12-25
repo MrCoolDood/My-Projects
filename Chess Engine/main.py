@@ -197,7 +197,6 @@ board_pieces = update_board_pieces(board)
 # Play against the bot
 while not board.is_game_over():
     print_custom_board(board_colors, board_pieces, orientation)  
-    # Print the custom board with pieces
     print(board)  # Print the current board state
 
     # Check for threefold repetition
@@ -206,16 +205,16 @@ while not board.is_game_over():
         break
 
     # Player's move
-try:
-    player_move = os.getenv('PLAYER_MOVE', input("Enter your move in UCI format (e.g., e2e4): "))
-except EOFError:
-    player_move = 'e2e4'  # Provide a default move or handle error appropriately
-move = chess.Move.from_uci(player_move)
-if move in board.legal_moves:
-    board.push(move)
-else:
-    print("Invalid move! Try again.")
-    continue
+    try:
+        player_move = os.getenv('PLAYER_MOVE', input("Enter your move in UCI format (e.g., e2e4): "))
+    except EOFError:
+        player_move = 'e2e4'  # Provide a default move or handle error appropriately
+    move = chess.Move.from_uci(player_move)
+    if move in board.legal_moves:
+        board.push(move)
+    else:
+        print("Invalid move! Try again.")
+        continue  # Ensure this is within the while loop
 
     # Update board pieces based on current board state
     board_pieces = update_board_pieces(board)
