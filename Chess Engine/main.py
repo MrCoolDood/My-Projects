@@ -1,4 +1,5 @@
 from tensorflow.keras.models import load_model
+import numpy as np
 import os
 import chess
 import random
@@ -31,6 +32,16 @@ def update_board_pieces(board):
         if piece:
             pieces[chess.square_name(square)] = piece.symbol()
     return pieces
+
+# Define the board colors
+def define_board_colors():
+    board_colors = {}
+    for square in chess.SQUARES:
+        if (chess.square_rank(square) + chess.square_file(square)) % 2 == 0:
+            board_colors[square] = 'white'
+        else:
+            board_colors[square] = 'black'
+    return board_colors
 
 def print_custom_board(board_colors, board_pieces, orientation):
     if orientation == 'black':
@@ -153,12 +164,11 @@ if __name__ == "__main__":
     model = load_trained_model()
 
     if model is not None:
-        # Example data (replace with actual data)
-        data = [[0.0] * 28 * 28]  # Example data format for MNIST (flattened image data)
+        # Example data: Replace with actual data in correct format
+        data = np.random.random((1, 784))  # Replace with actual data
         
         # Perform prediction
         predictions = predict(data, model)
-        
         if predictions is not None:
             print("Predictions:", predictions)
         else:
@@ -179,6 +189,9 @@ if __name__ == "__main__":
 
     orientation = 'black' if color_choice == 'b' else 'white'
 
+    board_colors = define_board_colors()
+    board_pieces = update_board_pieces(board)  # Initialize board_pieces here
+
     if color_choice == 'b':
         best_move_found = best_move(board, depth, position_counts, transposition_table)
         if best_move_found is not None:
@@ -186,8 +199,7 @@ if __name__ == "__main__":
             board.push(best_move_found)
         else:
             print("Bot cannot find a valid move.")
-
-    board_pieces = update_board_pieces(board)
+        board_pieces = update_board_pieces(board)
 
     while not board.is_game_over():
         print_custom_board(board_colors, board_pieces, orientation)
@@ -236,10 +248,8 @@ if __name__ == "__main__":
         print("Stalemate! Game over.")
     elif board.is_insufficient_material():
         print("Draw by insufficient material.")
-        elif board.is_seventyfive_moves():
-        print("Draw by seventy-five move rule.")
-    elif board.is_fivefold_repetition():
-        print("Draw by fivefold repetition.")
+    elif board.can_claim_threefold_repetition():
+        print("Draw by threefold repetition.")
     elif board.is_variant_draw():
         print("Draw by variant rules.")
     else:
