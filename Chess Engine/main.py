@@ -241,7 +241,7 @@ if __name__ == "__main__":
 
     print_custom_board(board_colors, board_pieces, orientation)
     print(board)
-
+#ending of the game
     if board.is_checkmate():
         print("Checkmate! Game over.")
     elif board.is_stalemate():
